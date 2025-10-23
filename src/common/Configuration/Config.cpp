@@ -553,6 +553,9 @@ std::string const ConfigMgr::GetConfigPath()
 
 #if AC_PLATFORM == AC_PLATFORM_WINDOWS
     return "configs/";
+#elif AC_PLATFORM == AC_PLATFORM_APPLE
+    //macos 开发 将配置文件路径改成当前目录下
+    return std::string(".") + "/";
 #else
     return std::string(_CONF_DIR) + "/";
 #endif
