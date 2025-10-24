@@ -398,6 +398,7 @@ struct AccountInfo
     }
 };
 
+/// 处理socket上接收到的消息，心跳/登录等，然后其他玩家操作数据加入到 _worldSession->QueuePacket(packetToQueue);的队列，后续更新时在解码
 WorldSocket::ReadDataHandlerResult WorldSocket::ReadDataHandler()
 {
     ClientPktHeader* header = reinterpret_cast<ClientPktHeader*>(_headerBuffer.GetReadPointer());
@@ -406,6 +407,7 @@ WorldSocket::ReadDataHandlerResult WorldSocket::ReadDataHandler()
     WorldPacket packet(opcode, std::move(_packetBuffer));
     WorldPacket* packetToQueue;
 
+    //将玩家的发包存入本地日志文件，需要配置文件里设置路径，需要配合gm命令打开   .packetlog on/off (非控制台命令，跟每个session绑定的）
     if (sPacketLog->CanLogPacket() && IsLoggingPackets())
         sPacketLog->LogPacket(packet, CLIENT_TO_SERVER, GetRemoteIpAddress(), GetRemotePort());
 
