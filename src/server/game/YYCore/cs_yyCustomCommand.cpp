@@ -6,6 +6,7 @@
 //
 
 #include <stdio.h>
+#include "Chat.h"
 #include "CommandScript.h"
 #include "ChatCommand.h"
 
@@ -22,7 +23,7 @@ public:
     {
         static ChatCommandTable yyCommandTable =
         {
-//            { "chat",      HandleGMChatCommand,       SEC_GAMEMASTER,     Console::No  },
+            { "jzts",      YY_HandleJiaZaiTeSe,       SEC_CONSOLE,     Console::Yes  },
 //            { "fly",       HandleGMFlyCommand,        SEC_GAMEMASTER,     Console::No  },
 //            { "ingame",    HandleGMListIngameCommand, SEC_PLAYER,         Console::Yes },
 //            { "list",      HandleGMListFullCommand,   SEC_ADMINISTRATOR,  Console::Yes },
@@ -33,11 +34,31 @@ public:
         };
         static ChatCommandTable commandTable =
         {
-            { "yy", yyCommandTable }
+            { "jzts",          YY_HandleJiaZaiTeSe,       SEC_CONSOLE,     Console::Yes  },
+            { "加载特色",       YY_HandleJiaZaiTeSe,       SEC_CONSOLE,     Console::Yes  },
+            { "公告模版",       YY_HandleGongGao,       SEC_CONSOLE,     Console::Yes}
         };
         return commandTable;
     }
 
+    
+    static bool YY_HandleJiaZaiTeSe(ChatHandler* handler)
+    {
+        
+        handler->SendSysMessage("加载特色========================");
+
+        return true;
+    }
+    
+    static bool YY_HandleGongGao(ChatHandler* handler,uint32 Id)
+    {
+        if (!Id) {
+            return false;
+        }
+        handler->SendSysMessage("公告模版========================");
+
+        return true;
+    }
 
 
 };

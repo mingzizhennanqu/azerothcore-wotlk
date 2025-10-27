@@ -6,3 +6,10 @@
 //
 
 #include "YYCoreManager.hpp"
+
+
+YYCoreManager* YYCoreManager::instance()
+{
+    static YYCoreManager instance;
+    return &instance;
+}
